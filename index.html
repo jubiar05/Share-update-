@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Share Boost</title>
+    <!-- Link to DaisyUI CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.7.2/dist/full.min.css" rel="stylesheet" type="text/css" />
+    <!-- Link to Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Link to Montserrat font -->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
+    <style>
+        body,
+        html {
+            margin: 0;
+            font-family: 'Montserrat', sans-serif;
+            background-color: #1a202c;
+            color: #cbd5e0;
+        }
+
+        .container {
+            background-color: #2d3748;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+            padding: 20px;
+            margin: 20px auto;
+            overflow: auto;
+            max-width: 800px;
+        }
+
+        .form-item {
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            color: #e2e8f0;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        p {
+            color: #a0aec0;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .form-item label {
+            font-size: 13px;
+            color: #a0aec0;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        input,
+        button {
+            background: #4a5568;
+            color: #cbd5e0;
+            border: solid 1px #2d3748;
+            box-sizing: border-box;
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        button {
+            cursor: pointer;
+            color: #ffffff;
+            background-color: #718096;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background: #4a5568;
+        }
+
+        #result,
+        #processing {
+            display: none;
+            text-align: center;
+            background-color: #2d3748;
+            border: solid 1px #4a5568;
+            padding: 12px;
+            border-radius: 8px;
+            color: #cbd5e0;
+            margin-top: 20px;
+        }
+
+        .alert {
+            padding: 15px;
+            margin-bottom: 20px;
+            border: 1px solid transparent;
+            border-radius: 8px;
+            color: #e2e8f0;
+            background-color: #4c51bf;
+            border-color: #434190;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .alert-danger {
+            color: #ffffff;
+            background-color: #e53e3e;
+            border-color: #c53030;
+        }
+
+        .current-online {
+            font-size: 13px;
+            background: #2d3748;
+            padding: 12px;
+            color: #cbd5e0;
+            border: solid 1px #4a5568;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            margin-bottom: 20px;
+            overflow: auto;
+            white-space: nowrap;
+        }
+
+        #profile-image {
+            margin-top: 10px;
+            border-radius: 50%;
+            border: 1px solid #cbd5e0;
+            width: 120px;
+            height: 120px;
+            display: block;
+            margin: 0 auto 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        }
+
+        footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: #1a202c;
+            padding: 1px;
+            text-align: center;
+            color: #cbd5e0;
+            font-size: 12px;
+        }
+
+        .important-notice {
+            background-color: #38a169;
+            color: #fff;
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            animation: vibrate 0.5s infinite alternate;
+        }
+
+        @keyframes vibrate {
+            0% {
+                transform: translateX(0);
+            }
+
+            100% {
+                transform: translateX(5px);
+            }
+        }
+
+        .nav-menu {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .nav-menu a {
+            margin: 0 10px;
+            color: #cbd5e0;
+            text-decoration: none;
+        }
+
+        .nav-menu a:hover {
+            color: #a0aec0;
+        }
+
+        /* Tutorial Section */
+        .tutorial-section {
+            background-color: #2d3748;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .tutorial-step {
+            margin-bottom: 20px;
+        }
+
+        .tutorial-step h3 {
+            color: #e2e8f0;
+            margin-bottom: 10px;
+        }
+
+        .tutorial-step img {
+            max-width: 100%;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+
+        .tutorial-step p {
+            color: #a0aec0;
+            text-align: center;
+        }
+
+        .tutorial-link {
+            color: #cbd5e0;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .tutorial-link:hover {
+            color: #a0aec0;
+        }
+
+        .special-greeting {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .special-greeting h2 {
+            color: #e2e8f0;
+            margin-bottom: 10px;
+        }
+
+        .animated-text {
+            color: #38a169;
+            font-size: 24px;
+            font-weight: bold;
+            animation: animateName 2s infinite;
+        }
+
+        @keyframes animateName {
+            0% {
+                color: #38a169;
+            }
+
+            50% {
+                color: #4299e1;
+            }
+
+            100% {
+                color: #38a169;
+            }
+        }
+
+        /* Feedback Section */
+        .feedback-section {
+            background-color: #4299e1;
+            color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .feedback-section h2 {
+            color: #fff;
+            margin-bottom: 10px;
+        }
+
+        .feedback-section p {
+            color: #cbd5e0;
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper-container">
+        <img id="profile-image" src="https://i.ibb.co/rdmp1Vq/FB-IMG-17056850130801252.jpg" alt="Profile Image">
+        <div class="container">
+            <h1>SHARE BOOST <i class="fas fa-bolt text-blue-500"></i></h1>
+            <p>A user-friendly automated website that utilizes your browser's cookies to streamline the process of
+                sharing posts on Facebook using the provided URL.</p>
+            <h2>Why Use My ShareBoost FB Tools</h2>
+            <p>My ShareBoost FB Tools simplify the process of boosting your Facebook posts by automating the sharing process, saving you time and effort.</p>
+            <h2>Why Have an Access Key</h2>
+            <p>Having an access key helps prevent unauthorized access and misuse of the ShareBoost FB Tools, ensuring the security and integrity of the service.</p>
+        </div>
+        <div class="form-wrapper">
+            <form onsubmit="submitForm(event)" class="form-container">
+                <div class="form-item">
+                    <label for="cookies">APPSTATE:</label>
+                    <input type="text" id="cookies" name="cookie" placeholder="Enter APPSTATE" class="dark">
+                </div>
+                <div class="form-item">
+                    <label for="urls">LINK:</label>
+                    <input type="text" id="urls" name="url" placeholder="Enter LINK" class="dark">
+                </div>
+                <div class="form-item">
+                    <label for="amounts">LIMIT:</label>
+                    <input type="text" id="amounts" name="amount" placeholder="Enter LIMIT" class="dark">
+                </div>
+                <div class="form-item">
+                    <label for="intervals">DELAY:</label>
+                    <input type="text" id="intervals" name="interval" placeholder="Enter DELAY" pattern="[0-9]*"
+                        class="dark">
+                </div>
+                <div class="form-item">
+                    <button type="submit" id="submit-button" class="btn btn-primary dark"><i class="fas fa-paper-plane"></i> Submit</button>
+                </div>
+                <div class="form-item">
+                    <div class="alert" id="result" style="display: none;"></div>
+                </div>
+                <div class="form-item">
+                    <div id="processing" style="display: none;">Processing... <i
+                            class="fas fa-spinner fa-spin"></i></div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Special Greeting Section -->
+    <div class="special-greeting">
+        <h2>Special Thanks To Our Moderators</h2>
+        <p class="animated-text">1.Irhiane Hijastro 2.Marjhun Baylon</p>
+    </div>
+
+    <!-- Important Notice Section -->
+    <div class="important-notice">
+        <p><strong>Important Notice:</strong> Please Don't Sell To This Website I created this to help people kahit na maliit na bagay lang to di ko dodown to kapag sumusunod kayo sa rules patakaran ko yun lang Enjoy To Shareboost Guys Loveyouuu!</p>
+    </div>
+
+    <!-- Navigation Menu -->
+    <div class="nav-menu">
+        <a href="#">Home</a>
+        <a href="#">About</a>
+        <a href="#">Services</a>
+        <a href="#">Contact Me</a>
+        <a href="#">Moderator</a>
+    </div>
+
+    <!-- Tutorial Section -->
+    <div class="tutorial-section">
+        <div class="tutorial-step">
+            <h3>Step 1: Download The Kiwi Browsers Click The bellow on Click Me</h3>
+            <img src="https://i.ibb.co/wwz2fsy/Screenshot-2024-03-09-10-44-21-95-40deb401b9ffe8e1df2f1cc5ba480b12.jpg" alt="Step 1">
+          <a href="https://www.google.com/amp/s/apkpure.com/kiwi-browser-fast-quiet/com.kiwibrowser.browser/amp" class="tutorial-link">Click Me To Direct On Download</a>
+        </div>
+        <div class="tutorial-step">
+            <h3>Step 2: Scroll Down</h3>
+            <img src="https://i.ibb.co/Tk56wDb/orca-image-1045464451.jpg" alt="Step 2">
+            <p>Click the Download Apk</p>
+        </div>
+        <div class="tutorial-step">
+            <h3>Step 3: If Already Download</h3>
+            <img src="https://i.ibb.co/qNGKTnV/orca-image-1419110298.jpg" alt="Step 3">
+            <p>Install and Open Kiwi Browser</p>
+        </div>
+        <div class="tutorial-step">
+            <h3>Step 4: Download The C3c Fb State Click The bellow on Click Me</h3>
+            <img src="https://i.ibb.co/k2htLFz/Screenshot-2024-03-09-11-13-35-01-40deb401b9ffe8e1df2f1cc5ba480b12.jpg" alt="Step 4">
+          <a href="https://www.mediafire.com/file/nlhsvu032iozbe6/c3c-fbstate-1.5.zip/file" class="tutorial-link">Click Me To Direct On C3c FB Appstate Link</a>
+        <div class="tutorial-step">
+          
+            <h3>Step 5: If Already download Back to Kiwi Browser</h3>
+            <img src="https://i.ibb.co/Wyx3r2t/Screenshot-2024-03-09-11-17-57-49-4d38fce200f96aeac5e860e739312e76.jpg" alt="Step 5">
+            <p>Login on Facebook</p>
+        </div>
+        <div class="tutorial-step">
+            <h3>Step 6: If Already Login</h3>
+            <img src="https://i.ibb.co/4Vx3Hpq/Screenshot-2024-03-09-11-20-10-45-4d38fce200f96aeac5e860e739312e76.jpg" alt="Step 6">
+            <p>Click Your profile</p>
+        </div>
+        <div class="tutorial-step">
+            <h3>Step 7: Click The 3 dots</h3>
+            <img src="https://i.ibb.co/0Y8JTDV/orca-image-642336415.jpg" alt="Step 7">
+            <p>And this is the result scroll to step 8</p>
+        </div>
+        <div class="tutorial-step">
+            <h3>Step 8: Click The Extension</h3>
+            <img src="https://i.ibb.co/f1NJnwj/orca-image-406656531.jpg" alt="Step 8">
+            <p>Scroll To Step 9</p>
+        </div>
+        <div class="tutorial-step">
+            <h3>Step 9: Click the + (from .zip/.crx/.user.js)</h3>
+            <img src="https://i.ibb.co/61m5nDF/orca-image-65298220.jpg" alt="Step 9">
+            <p>Scroll To Step 10</p>
+        </div>
+        <div class="tutorial-step">
+            <h3>Step 10: Click The c3c fb appstate you download</h3>
+            <img src="https://i.ibb.co/27RYHXj/orca-image-984484305.jpg" alt="Step 10">
+            <p>Scroll To Step 11</p>
+        </div>
+        <div class="tutorial-step">
+            <h3>Step 11: If already click the c3c fb appstate will appear on your extension</h3>
+            <img src="https://i.ibb.co/gm30Xxh/orca-image-603754399.jpg" alt="Step 11">
+            <p>Scroll To Step 12</p>
+        </div>
+        <div class="tutorial-step">
+            <h3>Step 12: Back To your Profile And Scroll Down And Click The C3c Fb State</h3>
+            <img src="https://i.ibb.co/f8nvkzC/orca-image-358096269.jpg" alt="Step 12">
+          <p>Scroll to Step 13</p>
+    </div>
+        <div class="tutorial-step">
+            <h3>Step 13: Click the Export FbState And Click The Copy</h3>
+            <img src="https://i.ibb.co/d22P6Nm/orca-image-273148045.jpg" alt="Step 13">
+          <p>Scroll to Step 14</p>
+        </div>
+        <div class="tutorial-step">
+            <h3>Step 14: Back to my Website and now you can use the ShareBoost Fb Tools And Paste your fb state on Appstate Input!</h3>
+            <img src="https://i.ibb.co/PjfrrqT/orca-image-1747259379.jpg" alt="Step 14">
+          <p>Scroll to Step 15</p>
+        </div>
+        <div class="tutorial-step">
+            <h3>Step 15: Result</h3>
+            <img src="https://i.ibb.co/Pht5N6H/orca-image-1378758721.jpg" alt="Step 15">
+          <p> The End Of Tutorial Now Follow The Instructions To Make it Work Thank You Guys!</p>
+        </div>
+
+    <!-- Feedback Section -->
+    <div class="feedback-section">
+        <h2>Feedback</h2>
+        <p>We appreciate your feedback! Please feel free to leave your comments below.</p>
+        <form>
+            <textarea name="feedback" id="feedback" rows="4" placeholder="Enter your feedback..." class="dark"></textarea>
+            <button type="submit" class="btn btn-primary dark"><i class="fas fa-paper-plane"></i> Submit</button>
+        </form>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Share Boost. All rights reserved. | Designed and developed by RyoDev Enjoy🤗</p>
+    </footer>
+
+    <script>
+        async function submitForm(event) {
+            event.preventDefault();
+            const result = document.getElementById('result');
+            const processing = document.getElementById('processing');
+            try {
+                result.style.display = 'none';
+                processing.style.display = 'block';
+                // Removed access key input
+                const response = await fetch('/api/submit', {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        cookie: document.getElementById('cookies').value,
+                        url: document.getElementById('urls').value,
+                        amount: document.getElementById('amounts').value,
+                        interval: document.getElementById('intervals').value,
+                    }),
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                });
+                const data = await response.json();
+
+                if (data.status === 200) {
+                    result.classList.remove('alert-danger');
+                    result.classList.add('alert');
+                    result.innerHTML = 'Submitted successfully! Check your post for the Share Boost.';
+                    result.style.display = 'block';
+                    processing.style.display = 'none';
+                } else {
+                    result.classList.remove('alert');
+                    result.classList.add('alert-danger');
+                    result.innerHTML = 'Error: ' + data.error;
+                    result.style.display = 'block';
+                    processing.style.display = 'none';
+                }
+            } catch (e) {
+                console.error(e);
+                result.classList.remove('alert');
+                result.classList.add('alert-danger');
+                result.innerHTML = 'An error occurred while processing.';
+                result.style.display = 'block';
+                processing.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+                      </html>
